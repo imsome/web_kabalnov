@@ -1,0 +1,47 @@
+﻿@model int
+<input id="itemId" value="@Model" hidden />
+
+<div id="pageTitle">КАРТОЧКА ИГРЫ</div>
+
+
+
+
+<div id="itemCardContainer" >
+    
+    <div class="columnContainer">
+        <div class="rowContainer"><p id="cardItemName" data-bind="text: name"></p></div>
+        <div id="underItemCardImg"><div id="itemCardImg" data-bind="style:{backgroundImage:'url(\''+picUrl+'\')'}"></div></div>    
+        <div id="itemDescription"><p>Описание:</p> <p class="cardItemDescription" data-bind="text: description"></p></div>
+        <div class="rowContainer priceContainer"><p>Цена:&nbsp</p><p id="cardItemPrice" data-bind="text: price"></p><p>р.</p></div>
+        <input class="myBtn" type="button" value="Купить" data-bind="click: function () { paypass(id)}"/>
+    </div>
+</div>
+
+
+
+<script>
+    function paypass(index) {
+        var id = index;
+        var url = "/Paypass/Paypass/" + index;
+        window.location.href = url;
+    };
+
+    var itemId = $('#itemId').val();
+ 
+    $(document).ready(function () {
+        $.getJSON("/api/Items/" + itemId,
+            function (json) {
+                var ViewModel = {
+                    id: json.Id,
+                    name: json.Name,
+                    price:json.Price,
+                    description: json.Description,
+                    picUrl: json.PicUrl
+                }
+                ko.applyBindings(ViewModel);
+            });
+    });
+</script>
+
+
+

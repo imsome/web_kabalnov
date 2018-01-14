@@ -1,0 +1,71 @@
+﻿Успешно! Ваш запрос обрабатывается, ждите уведомление на почту!
+<input id="userName" hidden value="@User.Identity.Name"/>
+<div id="achieveBox">
+    <div id="achieveName"></div>
+</div>
+
+<script>
+    var userName = $('#userName').val();
+    $(document).ready(function () {
+        $.getJSON("/api/Achievments/",
+            function (json) {
+
+                var achievements;
+                var achievementId;
+                for (var i = 0; i < json.length; i++) {
+
+                    if (json[i].UserName == userName)
+                    {
+                        achievements = {
+                            Id:json[i].Id,
+                            FirstAchieveProgress: json[i].FirstAchieveProgress,
+                            SecondAchieveProgress: json[i].SecondAchieveProgress,
+                            ThirdAchieveProgress: json[i].ThirdAchieveProgress,
+                            FourthAchieveProgress: json[i].FourthAchieveProgress,
+                            FifthAchieveProgress: json[i].FifthAchieveProgress,
+                            FirstAchieveName: json[i].FirstAchieveName,
+                            SecondAchieveName: json[i].SecondAchieveName,
+                            ThirdAchieveName: json[i].ThirdAchieveName,
+                            FourthAchieveName: json[i].FourthAchieveName,
+                            FifthAchieveName: json[i].FifthAchieveName,
+                            UserName: userName
+                        }
+                        achievementId = i+1;
+                    }
+                }
+                var achieveName = "null"
+                if (achievements.FirstAchieveProgress < 100)
+                {
+                    achievements.FirstAchieveProgress = 100;
+                    achieveName = achievements.FirstAchieveName;
+                }
+                if (achievements.FourthAchieveProgress < 100) {
+                    achievements.FourthAchieveProgress += 10;
+                    if (achievements.FourthAchieveProgress == 100)
+                        achieveName = achievements.FourthAchieveName;
+                }
+                if (achievements.FifthAchieveProgress < 100) {
+                    achievements.FifthAchieveProgress += 1;
+                    if (achievements.FifthAchieveProgress == 100)
+                        achieveName = achievements.FifthAchieveName;
+                }
+               
+                 $.ajax({
+                        type: "PUT",
+                        url: '/api/Achievments/' + achievementId,
+                        //processData: false,
+                        data: JSON.stringify(achievements),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (result) {
+                            if (achieveName != "null") {
+                                $('#achieveName').text(achieveName);
+                                $('#achieveBox').css('display', 'block');
+                            }
+                        },
+                        error: function (xhr, status, p3) {
+                            alert("2");
+                        }
+                    });
+            });
+    });
+</script>

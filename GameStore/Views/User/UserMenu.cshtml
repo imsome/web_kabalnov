@@ -1,0 +1,62 @@
+﻿<div id="pageTitle">@User.Identity.Name, спасибо, что заглянули!</div>
+<input id="userName" value="@User.Identity.Name" hidden/>
+<div class="columnContainer">
+    <p id="cardItemName" data-bind="text:firstName"></p>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" data-bind="style:{width:firstProgress}" ></div>
+    </div>
+    <p id="cardItemName" data-bind="text:firstProgress"> </p>
+    <p id="cardItemName" data-bind="text:secondName"> </p>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" data-bind="style:{width:secondProgress}"></div>
+    </div>
+    <p id="cardItemName" data-bind="text:secondProgress"> </p>
+    <p id="cardItemName" data-bind="text:thirdName"> </p>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" data-bind="style:{width:thirdProgress}"></div>
+    </div>
+    <p id="cardItemName" data-bind="text:thirdProgress"> </p>
+    <p id="cardItemName" data-bind="text:fourthName"> </p>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" data-bind="style:{width:fourthProgress}"></div>
+    </div>
+    <p id="cardItemName" data-bind="text:fourthProgress"> </p>
+    <p id="cardItemName" data-bind="text:fifthName"> </p>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" data-bind="style:{width:fifthProgress}"></div>
+    </div>
+    <p id="cardItemName" data-bind="text:fifthProgress"> </p>
+</div>
+
+
+
+<script>
+    var userName = $('#userName').val();
+    $(document).ready(function () {
+        $.getJSON("/api/Achievments/",
+            function (json) {
+                var ViewModel 
+                var myI = 0;
+                for (var i = 0; i < json.length; i++) {
+                    if (json[i].UserName == userName)
+                    {
+                        ViewModel = {
+                            firstName: json[i].FirstAchieveName,
+                            firstProgress: json[i].FirstAchieveProgress+'%',
+                            secondName: json[i].SecondAchieveName,
+                            secondProgress: json[i].SecondAchieveProgress+'%',
+                            thirdName: json[i].ThirdAchieveName,
+                            thirdProgress: json[i].ThirdAchieveProgress + '%',
+                            fourthName: json[i].FourthAchieveName,
+                            fourthProgress: json[i].FourthAchieveProgress + '%',
+                            fifthName: json[i].FifthAchieveName,
+                            fifthProgress: json[i].FifthAchieveProgress + '%',
+                        }
+                    }
+                }
+                ko.applyBindings(ViewModel);
+                
+                
+            });
+    });
+</script>

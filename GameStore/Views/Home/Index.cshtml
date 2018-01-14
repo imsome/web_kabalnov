@@ -1,0 +1,35 @@
+﻿<div id="catalog" data-bind="foreach: items">
+    <div class="itemCard" data-bind="click: function () { myFunction(id)  }">
+        <div class="underImgContainer"><div class="imgContainer" data-bind="style:{backgroundImage:'url(\''+picUrl+'\')'}"></div></div>
+        <div class="columnContainer itemInfo">
+            <div class="rowContainer"><p>Название:</p><p class="catalogItemName" data-bind="text: name"></p></div>
+            <div class="rowContainer"><p>Цена:</p><p class="catalogItemDescription" data-bind="text: price"></p></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function myFunction(index) {
+        var url = "/ItemCard/Card/" + index;
+        window.location.href = url;
+    };
+    $(document).ready(function () {
+        $.getJSON("/api/Items",
+            function (json) {
+                function ViewModel() {
+                    var self = this;
+                    self.items = ko.observableArray([]);
+                    for (var i = 0; i < json.length; i++) {
+                        self.items.push({
+                            id: json[i].Id,
+                            name: json[i].Name,
+                            price: json[i].Price,
+                            picUrl: json[i].PicUrl
+                        });
+                    }
+                };
+                ko.applyBindings(new ViewModel);
+            });
+    });
+</script>

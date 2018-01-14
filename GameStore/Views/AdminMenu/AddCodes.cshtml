@@ -1,0 +1,49 @@
+﻿<div id="drowDownMenu" onclick="dropMenu()">Menu</div>
+<div id="dropList" data-bind="foreach: items">
+    <div class="codeItem" data-bind="click: function () { myFunction(id)  }">
+            <div><p data-bind="text: name"></p></div>
+    </div>
+    </div>
+
+
+<script>
+    var isClosen = true;
+    function myFunction(index) {
+        var url = "/AdminMenu/GameCodesAdd/" + index;
+        window.location.href = url;
+    };
+    $(document).ready(function () {
+        $.getJSON("/api/Items",
+            function (json) {
+                function ViewModel() {
+                    var self = this;
+                    self.items = ko.observableArray([]);
+                    for (var i = 0; i < json.length; i++) {
+                        self.items.push({
+                            id: json[i].Id,
+                            name: json[i].Name,
+                        });
+                    }
+                };
+                ko.applyBindings(new ViewModel);
+            });
+    });
+
+   
+
+    function dropMenu()
+    {
+        if (isClosen)
+        {
+            $('#dropList').css('display', 'block');
+            isClosen = false;
+        }
+        else {
+            $('#dropList').css('display', 'none');
+            isClosen = true;
+        }
+       
+    }
+
+
+</script>

@@ -1,0 +1,12 @@
+﻿@model int
+<input id="id" hidden value="@Model" />
+<div id="pageTitle">Добавить ключи к игре</div>
+
+<form action="/api/GameCodes"  method="post">
+    <input id="gameId" name="GameId" hidden value="@Model" />
+    <div class="form-group">
+        <label for="itemPicUrl">Ключ:</label>
+        <input id="codeInput" required class="form-control" name="Code" type="text" />
+    </div>
+    <input class="myBtn" type="submit" value="Добавить код" />
+</form>

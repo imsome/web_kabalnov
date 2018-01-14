@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title – Игровой магазин</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/knockout.js"></script>
+</head>
+<body>
+    <div id="header">
+        <div id="logo" class="pointer" onclick="location.href='@Url.Action("Index", "Home")'"></div>
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+<div id="userNameauthContainer">
+                <div id="userHeaderName">Пользователь: @User.Identity.Name</div>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle dropDownmenuButton" type="button" data-toggle="dropdown">Меню<span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        @{
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    <div class="pointer dropDownElem" onclick="location.href='@Url.Action("Menu", "AdminMenu")'">Админка</div>
+                                </li>
+                            }
+                        }
+                        <li>
+                            <div class="pointer dropDownElem" onclick="location.href='@Url.Action("UserMenu", "User")'">Личный кабинет</div>
+                        </li>
+                        <li>
+                            <div class="pointer dropDownElem" onclick="location.href='@Url.Action("Logout", "Account")'">Выход</div>
+                        </li>
+                    </ul>
+                </div>
+    </div>
+        }
+        else
+        {
+        <div id="headerButtons">
+            <div class="myBtn" onclick="location.href='@Url.Action("Login", "Account")'">Логин</div>
+            <div class="myBtn" onclick="location.href='@Url.Action("Register", "Account")'">Регистрация</div>
+        </div>
+        }
+        }
+    </div>
+
+    <div class="container body-content">
+        <div id="mainContent">
+            @RenderBody()
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year – лучший магазин Ничего!</p>
+        </footer>
+    </div>
+
+    
+    @Scripts.Render("~/bundles/bootstrap")
+   
+    @RenderSection("scripts", required: false)
+</body>
+</html>

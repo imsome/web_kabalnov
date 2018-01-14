@@ -1,0 +1,18 @@
+@model GameStore.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+@Html.ValidationSummary()
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel(false)
+    <div style="padding:15px 0">
+        <input type="submit" class="btn btn-primary" value="Login" />
+    </div>
+}
+<div>
+    @Html.ActionLink("I need an account", "Register", null, new { @class = "btn btn-link" })
+</div>
